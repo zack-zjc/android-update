@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <base-config cleartextTrafficPermitted="true">
+    <trust-anchors>
+      <certificates src="system"/>
+      <certificates src="user"/>
+      <!-- z自定义证书<certificates src="@raw/ca"/> -->
+    </trust-anchors>
+  </base-config>
+</network-security-config>
