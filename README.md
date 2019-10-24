@@ -1,21 +1,22 @@
 ## 安卓版本升级中存在的一些问题记录，包含部分AndroidQ的适配,持续更新备份
 
-
-### 明文HTTP限制
+### 1.明文HTTP限制
 当targetSdkVersion >= Build.VERSION_CODES.P 时，默认限制了HTTP请求
 
 1.在AndroidManifest.xml中Application添加如下节点代码
+
 android:usesCleartextTraffic="true"
 
 2.在AndroidManifest.xml中Application添加如下节点代码
+
 android:networkSecurityConfig="@xml/network_security_config"
 
-### Only fullscreen activities can request orientation 异常
+### 2.Only fullscreen activities can request orientation 异常
 1.该问题出现在 targetSdkVersion >= Build.VERSION_CODES.O_MR1 ，也就是 API 27,当设备为Android 26时（27以上已经修复，也许google觉得不妥当，又改回来了），
 如果非全面屏透明activity固定了方向，则出现该异常，但是当我们在小米、魅族等Android 26机型测试的时候，并没有该异常，华为机型则报该异常，
 这是何等的卧槽。。。没办法，去掉透明style或者去掉固定方向代码即可，其它无解
 
-### 安装APK Intent及其它文件相关Intent
+### 3.安装APK Intent及其它文件相关Intent
 
 ```groovy
 	/*
@@ -47,7 +48,7 @@ android:networkSecurityConfig="@xml/network_security_config"
     }
 ```	
 
-### AndroidQ中对于文件路径做了修改
+### 4.AndroidQ中对于文件路径做了修改
 
 1.使用官方支持的规避方案：通过设置android:requestLegacyExternalStorage="false"属性来关闭APP的沙盒机制。
 
@@ -55,11 +56,16 @@ android:networkSecurityConfig="@xml/network_security_config"
 除了第一种写在“/sdcard/Android/data/packageName/file”路径中可以正常使用InputStream&OutputStream读写文件，另外两种方法都无法直接对文件IO操作,
 Android Q 公有目录只能通过Content Uri + id的方式访问，以前的File路径全部无效,所以后续有向SDcard中写文件的需求优先向APP私有路径中写入
 MediaStore是外部存储空间的公共媒体集合，存放的都是多媒体文件，在API >= 29后加入了download集合
-照片：存储在 MediaStore.Images 中
-视频：存储在 MediaStore.Video 中
-音乐文件：存储在 MediaStore.Audio 中
-下载文件：存储在 MediaStore.Downloads 中
-所有文件：存储在 MediaStore.Files 中
+
+照片：存储在 MediaStore.Images 
+
+视频：存储在 MediaStore.Video 
+
+音乐文件：存储在 MediaStore.Audio 
+
+下载文件：存储在 MediaStore.Downloads 
+
+所有文件：存储在 MediaStore.Files 
 
 
 
