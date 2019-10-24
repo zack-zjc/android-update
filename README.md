@@ -1,12 +1,14 @@
-## 安卓版本升级中存在的一些问题记录，包含部分AndroidQ的适配
+## 安卓版本升级中存在的一些问题记录，包含部分AndroidQ的适配,持续更新备份
 
 
 ### 明文HTTP限制
 当targetSdkVersion >= Build.VERSION_CODES.P 时，默认限制了HTTP请求
 
-1.在AndroidManifest.xml中Application添加如下节点代码<application android:usesCleartextTraffic="true">
+1.在AndroidManifest.xml中Application添加如下节点代码
+android:usesCleartextTraffic="true"
 
-2.在AndroidManifest.xml中Application添加如下节点代码<application android:networkSecurityConfig="@xml/network_security_config">
+2.在AndroidManifest.xml中Application添加如下节点代码
+android:networkSecurityConfig="@xml/network_security_config"
 
 ### Only fullscreen activities can request orientation 异常
 1.该问题出现在 targetSdkVersion >= Build.VERSION_CODES.O_MR1 ，也就是 API 27,当设备为Android 26时（27以上已经修复，也许google觉得不妥当，又改回来了），
@@ -50,20 +52,13 @@
 1.使用官方支持的规避方案：通过设置android:requestLegacyExternalStorage="false"属性来关闭APP的沙盒机制。
 
 2.沙盒模式下，每个APP在访问sdcard时会进入过滤视图，只能访问私有路径（Context.getExternalFilesDir()）和公共存储空间（多媒体，MediaStore）,
-除了第一种写在“/sdcard/Android/data/packageName/file”路径中可以正常使用InputStream&OutputStream读写文件，另外两种方法都无法直接对文件IO操作。
-所以后续有向SDcard中写文件的需求优先向APP私有路径中写入
+除了第一种写在“/sdcard/Android/data/packageName/file”路径中可以正常使用InputStream&OutputStream读写文件，另外两种方法都无法直接对文件IO操作,
+Android Q 公有目录只能通过Content Uri + id的方式访问，以前的File路径全部无效,所以后续有向SDcard中写文件的需求优先向APP私有路径中写入
 MediaStore是外部存储空间的公共媒体集合，存放的都是多媒体文件，在API >= 29后加入了download集合
-
-Android Q 公有目录只能通过Content Uri + id的方式访问，以前的File路径全部无效
-
 照片：存储在 MediaStore.Images 中
-
 视频：存储在 MediaStore.Video 中
-
 音乐文件：存储在 MediaStore.Audio 中
-
 下载文件：存储在 MediaStore.Downloads 中
-
 所有文件：存储在 MediaStore.Files 中
 
 
