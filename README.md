@@ -16,7 +16,56 @@ android:networkSecurityConfig="@xml/network_security_config"
 如果非全面屏透明activity固定了方向，则出现该异常，但是当我们在小米、魅族等Android 26机型测试的时候，并没有该异常，华为机型则报该异常，
 这是何等的卧槽。。。没办法，去掉透明style或者去掉固定方向代码即可，其它无解
 
-### 3.安装APK Intent及其它文件相关Intent
+### 3.Apache HTTP 客户端弃用影响采用非标准 ClassLoader 的应用
+
+1.Target < 28 可用在build.gradle中添加继续引用
+```groovy
+	android {
+		useLibrary 'org.apache.http.legacy'
+	}
+```	
+
+2.Target >= 28 默认情况下该内容库已从 bootclasspath 中移除且不可用于应用,所以在AndroidManifest.xml中添加
+```groovy
+	<uses-library android:name="org.apache.http.legacy" android:required="false"/>
+```	
+
+### 4.全面屏适配
+
+```groovy
+	<application android:resizeableActivity="true"/>
+
+	<meta-data
+        android:name="android.max_aspect"
+        android:value="1317014784.000000" />
+
+    <meta-data
+        android:name="android.min_aspect"
+        android:value="1065353216.000000" />
+```	
+
+### 5.文件路径适配
+在AndroidManifest.xml中添加适配文件选择
+```groovy
+	<provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="${applicationId}.FileProvider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+    </provider>
+```	
+
+        
+
+### 6.安装APK Intent及其它文件相关Intent
+
+```groovy
+	//安装apk需要的权限
+	<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+```	
 
 ```groovy
 	/*
@@ -48,7 +97,7 @@ android:networkSecurityConfig="@xml/network_security_config"
     }
 ```	
 
-### 4.AndroidQ中对于文件路径做了修改
+### 7.AndroidQ中对于文件路径做了修改
 
 1.使用官方支持的规避方案：通过设置android:requestLegacyExternalStorage="false"属性来关闭APP的沙盒机制。
 
@@ -66,6 +115,13 @@ MediaStore是外部存储空间的公共媒体集合，存放的都是多媒体�
 下载文件：存储在 MediaStore.Downloads 
 
 所有文件：存储在 MediaStore.Files 
+
+### 8.资源文件适配
+屏幕比例从16:9变成18:9，对于全屏铺满显示的图片，往往被会拉伸导致变形，针对这种问题，我们以分辨率为2160X1080，像素密度为480dpi的VIVO X20Plus手机为例，
+可以在资源目录下面增加一个文件夹，drawable-h642dp-port-xxhdpi，并将GUI切好的分辨率为2160X1080资源图片放在这个目录下，系统就能自动使用这种图片，便不会出现拉伸的问题。
+关于h<N>dp的详细用法，google开发者文档也有详细介绍：https://developer.android.com/guide/practices/screens_support.html
+
+
 
 
 

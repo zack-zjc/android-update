@@ -1,0 +1,26 @@
+<resources>
+  <paths>
+
+    <external-path
+      name="download"
+      path=""/>
+
+    <external-files-path
+        name="external_files_path"
+        path="Download" />
+
+    <files-path
+        name="private-file"
+        path="" />
+
+    <cache-path
+        name="private_cache"
+        path="" />
+
+    <root-path
+        name="root_path"
+        path="" />
+
+  </paths>
+
+</resources>
