@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿## 安卓版本升级中存在的一些问题记录，包含部分AndroidQ的适配,持续更新备份
+## 安卓版本升级中存在的一些问题记录，包含部分AndroidQ的适配,持续更新备份
 
 ### 1.明文HTTP限制
 当targetSdkVersion >= Build.VERSION_CODES.P 时，默认限制了HTTP请求
@@ -145,6 +145,9 @@ applicationVariants.all { variant ->
       }
  }
 ```	
+### 10.安卓通知
+参考https://www.jianshu.com/p/cb8426620e74
+
 
 
 
