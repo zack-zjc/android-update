@@ -148,6 +148,11 @@ applicationVariants.all { variant ->
 ### 10.安卓通知
 参考https://www.jianshu.com/p/cb8426620e74
 
+### 11.安卓10:Scoped Storage 
+1.多媒体文件需要使用 MediaStore API 访问
+
+2.其他文件需要使用 Storage Access Framework API 访问
+
 
 
 
