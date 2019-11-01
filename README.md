@@ -153,6 +153,9 @@ applicationVariants.all { variant ->
 
 2.其他文件需要使用 Storage Access Framework API 访问
 
+### 13.推荐博客
+https://juejin.im/post/5db929a66fb9a0202a2624fe
+
 
 
 
